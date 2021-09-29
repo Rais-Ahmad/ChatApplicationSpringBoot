@@ -2,7 +2,6 @@ package com.chatapplicationspringBoot.Controller;
 
 import com.chatapplicationspringBoot.Model.User;
 import com.chatapplicationspringBoot.Service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,19 +13,27 @@ import java.util.NoSuchElementException;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
+    final
     UserService userService;
     private static final String defaultAuthValue = "da6d27f1-a033-44a9-88aa-a8a5f64a85db";
     private static boolean isLogin = false;
 
-    // check user is authorize or not
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+
     public Boolean authorize(String authValue) {
         return true;
+
         // return defaultAuthValue.equals(authValue);
     }
 
     @GetMapping("/login")
-    public ResponseEntity login(@RequestParam(value = "username") String paramEmail,
+
+    // Comparing Email and password of user from database
+
+    public ResponseEntity login(@RequestParam(value = "Email") String paramEmail,
                                 @RequestParam(value = "password") String paramPassword) {
         User user = userService.getEmail(paramEmail);
 
@@ -42,6 +49,8 @@ public class UserController {
     }
 
     @GetMapping("/logout")
+    // Logout Functionality
+
     public ResponseEntity logout() {
         isLogin = false;
         return new ResponseEntity("User Logged out!", HttpStatus.OK);
@@ -49,7 +58,12 @@ public class UserController {
     }
 
     @GetMapping(" ")
+
+    // List of users will be displayed
+
     public ResponseEntity<Object> userList(/*@RequestHeader("Authorization") String authValue*/) {
+
+        //  login as well as header authorization will be checked here
 
         if (isLogin) {
             if (authorize("true")) {
@@ -68,6 +82,9 @@ public class UserController {
 
 
     @PostMapping("/add")
+
+    // Add a new user to database
+
     public ResponseEntity<String> addUser(@RequestHeader("Authorization") String authValue, @RequestBody User user) {
 
 
@@ -84,6 +101,9 @@ public class UserController {
 
 
     @GetMapping("/get/{id}")
+
+    // Get user from database via providing user id
+
     public ResponseEntity<Object> get(@RequestHeader("Authorization") String authValue, @PathVariable Long id) {
 
 
@@ -105,6 +125,9 @@ public class UserController {
     }
 
     @PutMapping("/update")
+
+    // Update user information from database
+
     public ResponseEntity<Object> update(@RequestHeader("authorization") String authValue, @RequestBody User user) {
 
 
@@ -126,6 +149,9 @@ public class UserController {
     }
 
     @DeleteMapping("delete/{id}")
+
+    // Delete a particular user
+
     public ResponseEntity<String> delete(@PathVariable Long id) {
 
 

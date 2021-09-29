@@ -39,7 +39,7 @@ public class ChatController {
 
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<Object> get(@RequestHeader("Authorization") String authValue, @PathVariable Long id) {
         if (Authorization(authValue)) {
             try {
@@ -87,7 +87,7 @@ public class ChatController {
         } else return new ResponseEntity<>(" not authorize ", HttpStatus.UNAUTHORIZED);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@RequestHeader("Authorization") String checkKey, @PathVariable long  id) {
 
             try {

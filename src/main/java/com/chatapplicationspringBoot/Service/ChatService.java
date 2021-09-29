@@ -20,10 +20,13 @@ public class ChatService {
         this.chatRepository = chatRepository;
     }
 
+    // Function to display the list of all chats
+
     public List<Chat> listAllUser() {
         return chatRepository.findAll();
     }
 
+    // Function for creating an object of chat as well as saving date and time
 
     public void saveChat(Chat chat) {
         Date date = new Date();
@@ -33,17 +36,19 @@ public class ChatService {
 
     }
 
-//    public void deleteChat(long id) {
-//        chatRepository.deleteById(id);
-//    }
+    // Function for searching a chat by id
 
     public Chat getChat(long id) {
         return chatRepository.findById(id).get();
     }
 
+    // Function for deleting a chat object
+
     public void deleteChat(long id) {
         chatRepository.deleteById(id);
     }
+
+    // Searching a chat by requesting parameter id of the particular question
 
     public ResponseEntity<Chat> GetQuestionById(@RequestParam("question") Long id) {
         Optional<Chat> chat = chatRepository.findById(id);

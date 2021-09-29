@@ -18,6 +18,8 @@ public class Chat {
     @Column(nullable = true)
     private Date answerDate;
 
+    // Getter and setter functions for Chat class
+
     public long getId() {
         return id;
     }

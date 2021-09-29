@@ -30,6 +30,8 @@ public class User {
         this.password = password;
     }
 
+    // Getter and setter functions for User class
+
     public long getId() {
         return id;
     }
