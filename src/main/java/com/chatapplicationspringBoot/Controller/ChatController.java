@@ -2,16 +2,22 @@ package com.chatapplicationspringBoot.Controller;
 
 import com.chatapplicationspringBoot.Model.Chat;
 import com.chatapplicationspringBoot.Service.ChatService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
+
+@EnableSwagger2
 @RestController
 @RequestMapping("/chat")
 public class ChatController {
+    private static final Logger LOG = LogManager.getLogger (ChatController.class);
     private String key = "da6d27f1-a033-44a9-88aa-a8a5f64a85db";
 
     public boolean Authorization(String checkKey) {
@@ -24,26 +30,40 @@ public class ChatController {
     final
     ChatService chatService;
 
+    /**
+     *
+     * @param chatService
+     * @Auther Rais Ahmad
+     * @date 29/09/2021
+     *
+     */
     public ChatController(ChatService chatService) {
         this.chatService = chatService;
     }
 
-    @GetMapping("")
+    @GetMapping("/user/{userId}/chat")
    // public List<Chat> list() {
-        public ResponseEntity<Object> list(@RequestHeader("Authorization") String authValue){
-        if (Authorization(authValue)) {
-            List<Chat> chatList = chatService.listAllUser();
+
+        public ResponseEntity<Object> Listallchatbyuserid(@PathVariable(value = "userId") Long userId){
+        LOG.info("  Logs are Working ! ");
+     //   if (Authorization(authValue)) {
+            List<Chat> chatList = chatService.Listallchatbyuserid(userId);
+        LOG.info("   List of chats   " + chatList);
             return new ResponseEntity (chatList, HttpStatus.OK);
-        }
-        else return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
+
+//        }
+//        else return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
+
 
     }
 
-    @GetMapping("/{id}")
+
+    @GetMapping("/get/{id}")
     public ResponseEntity<Object> get(@RequestHeader("Authorization") String authValue, @PathVariable Long id) {
         if (Authorization(authValue)) {
             try {
                 Chat chat = chatService.getChat(id);
+                LOG.info("user id is: " + id);
                 return new ResponseEntity<>(chat, HttpStatus.CREATED);
             } catch (NoSuchElementException e) {
                 return new ResponseEntity<>("Chat not found incorrect id ", HttpStatus.NOT_FOUND);
@@ -54,15 +74,14 @@ public class ChatController {
         }
     }
 
-    @PostMapping("/add")
-        public ResponseEntity<String> addUser(@RequestHeader("Authorization") String authValue, @RequestBody Chat chat) {
-        // check authorization
-        if (Authorization(authValue)) {
-            chatService.saveChat(chat);
+    @PostMapping("/user/{userId}/chat/add")
+        public ResponseEntity<Object> createuserchat(@PathVariable(value = "userId") Long userId, @RequestBody Chat chat) throws Exception {
+
+        chatService.createuserchat(userId, chat);
+            //chatService.saveChat(chat);
+            LOG.info("A new user is added! " + chat);
             return new ResponseEntity<>("Chat added successfully", HttpStatus.CREATED);
 
-        } else
-            return new ResponseEntity<>(" not authorize ", HttpStatus.UNAUTHORIZED);
     }
 
     @GetMapping("/question")
@@ -80,6 +99,7 @@ public class ChatController {
         if (Authorization(authValue)) {
             try {
                 chatService.saveChat(chat);
+                LOG.info("User updated: " + chat);
                 return new ResponseEntity<>("updated successfully", HttpStatus.OK);
             } catch (NoSuchElementException e) {
                 return new ResponseEntity<>("Chat not found ", HttpStatus.NOT_FOUND);
@@ -87,11 +107,12 @@ public class ChatController {
         } else return new ResponseEntity<>(" not authorize ", HttpStatus.UNAUTHORIZED);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@RequestHeader("Authorization") String checkKey, @PathVariable long  id) {
 
             try {
                 chatService.deleteChat(id);
+                LOG.info(" User at id: " + id + "  is deleted! ");
                 return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
             } catch (NoSuchElementException e) {
                 return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);

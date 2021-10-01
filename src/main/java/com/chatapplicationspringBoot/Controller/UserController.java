@@ -1,37 +1,59 @@
 package com.chatapplicationspringBoot.Controller;
 
+import com.chatapplicationspringBoot.Model.Chat;
 import com.chatapplicationspringBoot.Model.User;
+import com.chatapplicationspringBoot.Service.ChatService;
 import com.chatapplicationspringBoot.Service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@EnableSwagger2
 @RestController
 @RequestMapping("/user")
 public class UserController {
-
-    @Autowired
+    private static final Logger LOG = LogManager.getLogger (UserController.class);
+    private final ChatService chatService;
+    String userLogout;
+    final
     UserService userService;
     private static final String defaultAuthValue = "da6d27f1-a033-44a9-88aa-a8a5f64a85db";
     private static boolean isLogin = false;
 
-    // check user is authorize or not
+    public UserController(ChatService chatService, UserService userService) {
+        this.chatService = chatService;
+        this.userService = userService;
+    }
+//    public ChatController(ChatService chatService) {
+//        this.chatService = chatService;
+//    }
+
+
     public Boolean authorize(String authValue) {
         return true;
+
         // return defaultAuthValue.equals(authValue);
     }
 
     @GetMapping("/login")
-    public ResponseEntity login(@RequestParam(value = "username") String paramEmail,
+
+    // Comparing Email and password of user from database
+
+    public ResponseEntity login(@RequestParam(value = "Email") String paramEmail,
                                 @RequestParam(value = "password") String paramPassword) {
         User user = userService.getEmail(paramEmail);
 
         if (paramEmail.equals(user.getEmail()) && paramPassword.equals(user.getPassword())) {
             isLogin = true;
+
+            LOG.info(" Login performed by: " + user.getFirstName() + " !");
+            userLogout = user.getFirstName();
             return new ResponseEntity("login successfully", HttpStatus.OK);
         } else {
             System.out.println(user.getEmail() + "  name is " + user.getFirstName() + "id is " + user.getId());
@@ -42,52 +64,69 @@ public class UserController {
     }
 
     @GetMapping("/logout")
+    // Logout Functionality
+
     public ResponseEntity logout() {
+
         isLogin = false;
+       // User user = null;
+        LOG.info("" + userLogout + "  Logged out!");
         return new ResponseEntity("User Logged out!", HttpStatus.OK);
 
     }
 
     @GetMapping(" ")
+
+    // List of users will be displayed
+
     public ResponseEntity<Object> userList(/*@RequestHeader("Authorization") String authValue*/) {
 
-        if (isLogin) {
+        //  login as well as header authorization will be checked here
+
+      //  if (isLogin) {
             if (authorize("true")) {
                 List<User> userList = userService.listAllUser();
-                // check if database is empty
+                //return new ResponseEntity<>(userList, HttpStatus.OK);
+
                 if (userList.isEmpty()) {
                     return new ResponseEntity<>("No data available", HttpStatus.NOT_FOUND);
                 } else {
                     return new ResponseEntity<>(userList, HttpStatus.OK);
                 }
-
             } else
                 return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
-        } else return new ResponseEntity<>("You are not logged in yet! ", HttpStatus.UNAUTHORIZED);
+       // } else return new ResponseEntity<>("You are not logged in yet! ", HttpStatus.UNAUTHORIZED);
     }
 
 
     @PostMapping("/add")
-    public ResponseEntity<String> addUser(@RequestHeader("Authorization") String authValue, @RequestBody User user) {
+
+    // Add a new user to database
+
+    public ResponseEntity<String> addUser(@RequestHeader("Authorization") String authValue, @RequestBody User user, @RequestBody Chat chat) {
 
 
-        if (isLogin) {
-            if (authorize("true")) {
+       // if (isLogin) {
+          //  if (authorize("true")) {
 
                 userService.saveUser(user);
+                chatService.saveChat(chat);
                 return new ResponseEntity<>("User added successfully", HttpStatus.CREATED);
 
-            } else
-                return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
-        } else return new ResponseEntity<>("You are not logged in yet! ", HttpStatus.UNAUTHORIZED);
+//            } else
+//                return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
+       // } else return new ResponseEntity<>("You are not logged in yet! ", HttpStatus.UNAUTHORIZED);
     }
 
 
     @GetMapping("/get/{id}")
+
+    // Get user from database via providing user id
+
     public ResponseEntity<Object> get(@RequestHeader("Authorization") String authValue, @PathVariable Long id) {
 
 
-        if (isLogin) {
+      //  if (isLogin) {
             if (authorize("true")) {
 
                 try {
@@ -99,16 +138,19 @@ public class UserController {
 
             } else
                 return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
-        } else return new ResponseEntity<>("You are not logged in yet! ", HttpStatus.UNAUTHORIZED);
+      //  } else return new ResponseEntity<>("You are not logged in yet! ", HttpStatus.UNAUTHORIZED);
 
 
     }
 
     @PutMapping("/update")
+
+    // Update user information from database
+
     public ResponseEntity<Object> update(@RequestHeader("authorization") String authValue, @RequestBody User user) {
 
 
-        if (isLogin) {
+      //  if (isLogin) {
             if (authorize("true")) {
 
                 try {
@@ -120,16 +162,19 @@ public class UserController {
 
             } else
                 return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
-        } else return new ResponseEntity<>("You are not logged in yet! ", HttpStatus.UNAUTHORIZED);
+     //   } else return new ResponseEntity<>("You are not logged in yet! ", HttpStatus.UNAUTHORIZED);
 
 
     }
 
     @DeleteMapping("delete/{id}")
+
+    // Delete a particular user
+
     public ResponseEntity<String> delete(@PathVariable Long id) {
 
 
-        if (isLogin) {
+      //  if (isLogin) {
             if (authorize("true")) {
 
                 try {
@@ -141,9 +186,10 @@ public class UserController {
 
             } else
                 return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
-        } else return new ResponseEntity<>("You are not logged in yet! ", HttpStatus.UNAUTHORIZED);
+     //   } else return new ResponseEntity<>("You are not logged in yet! ", HttpStatus.UNAUTHORIZED);
 
 
     }
+
 
 }

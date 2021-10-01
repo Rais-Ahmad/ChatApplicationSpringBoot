@@ -1,9 +1,17 @@
 package com.chatapplicationspringBoot.Model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
-public class User {
+@Table(name = "user")
+//@JsonIgnoreProperties({"hibernateLazyInitializer","handler","chat"})
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
+public class User implements Serializable {
     @Id
     @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +26,9 @@ public class User {
     @Column(nullable = false)
     private String password; //User Password
 
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
+    private List<Chat> chat;
+
     public User() {
     }
 
@@ -29,6 +40,8 @@ public class User {
         this.age = age;
         this.password = password;
     }
+
+    // Getter and setter functions for User class
 
     public long getId() {
         return id;
@@ -77,5 +90,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Chat> getChat() {
+        return chat;
+    }
+
+    public void setChat(List<Chat> chat) {
+        this.chat = chat;
     }
 }
