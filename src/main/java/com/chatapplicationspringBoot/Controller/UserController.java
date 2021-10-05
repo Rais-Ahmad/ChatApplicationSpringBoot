@@ -1,5 +1,6 @@
 package com.chatapplicationspringBoot.Controller;
 
+import com.chatapplicationspringBoot.Model.Category;
 import com.chatapplicationspringBoot.Model.Chat;
 import com.chatapplicationspringBoot.Model.User;
 import com.chatapplicationspringBoot.Service.ChatService;
@@ -18,7 +19,7 @@ import java.util.NoSuchElementException;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    private static final Logger LOG = LogManager.getLogger (UserController.class);
+    private static final Logger LOG = LogManager.getLogger(UserController.class);
     private final ChatService chatService;
     String userLogout;
     final
@@ -30,10 +31,6 @@ public class UserController {
         this.chatService = chatService;
         this.userService = userService;
     }
-//    public ChatController(ChatService chatService) {
-//        this.chatService = chatService;
-//    }
-
 
     public Boolean authorize(String authValue) {
         return true;
@@ -69,7 +66,7 @@ public class UserController {
     public ResponseEntity logout() {
 
         isLogin = false;
-       // User user = null;
+        // User user = null;
         LOG.info("" + userLogout + "  Logged out!");
         return new ResponseEntity("User Logged out!", HttpStatus.OK);
 
@@ -83,39 +80,29 @@ public class UserController {
 
         //  login as well as header authorization will be checked here
 
-      //  if (isLogin) {
-            if (authorize("true")) {
-                List<User> userList = userService.listAllUser();
-                //return new ResponseEntity<>(userList, HttpStatus.OK);
+        //  if (isLogin) {
+        if (authorize("true")) {
+            List<User> userList = userService.listAllUser();
+            //return new ResponseEntity<>(userList, HttpStatus.OK);
 
-                if (userList.isEmpty()) {
-                    return new ResponseEntity<>("No data available", HttpStatus.NOT_FOUND);
-                } else {
-                    return new ResponseEntity<>(userList, HttpStatus.OK);
-                }
-            } else
-                return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
-       // } else return new ResponseEntity<>("You are not logged in yet! ", HttpStatus.UNAUTHORIZED);
+            if (userList.isEmpty()) {
+                return new ResponseEntity<>("No data available", HttpStatus.NOT_FOUND);
+            } else {
+                return new ResponseEntity<>(userList, HttpStatus.OK);
+            }
+        } else
+            return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
+        // } else return new ResponseEntity<>("You are not logged in yet! ", HttpStatus.UNAUTHORIZED);
     }
 
 
     @PostMapping("/add")
+    public ResponseEntity<String> addUser(@RequestHeader("Authorization") String authValue, @RequestBody User user) {
 
-    // Add a new user to database
+        userService.saveUser(user);
 
-    public ResponseEntity<String> addUser(@RequestHeader("Authorization") String authValue, @RequestBody User user, @RequestBody Chat chat) {
+        return new ResponseEntity<>("User added successfully", HttpStatus.CREATED);
 
-
-       // if (isLogin) {
-          //  if (authorize("true")) {
-
-                userService.saveUser(user);
-                chatService.saveChat(chat);
-                return new ResponseEntity<>("User added successfully", HttpStatus.CREATED);
-
-//            } else
-//                return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
-       // } else return new ResponseEntity<>("You are not logged in yet! ", HttpStatus.UNAUTHORIZED);
     }
 
 
@@ -126,19 +113,19 @@ public class UserController {
     public ResponseEntity<Object> get(@RequestHeader("Authorization") String authValue, @PathVariable Long id) {
 
 
-      //  if (isLogin) {
-            if (authorize("true")) {
+        //  if (isLogin) {
+        if (authorize("true")) {
 
-                try {
-                    User user = userService.getUser(id);
-                    return new ResponseEntity<>(user, HttpStatus.CREATED);
-                } catch (NoSuchElementException e) {
-                    return new ResponseEntity<>("User not found incorrect id ", HttpStatus.NOT_FOUND);
-                }
+            try {
+                User user = userService.getUser(id);
+                return new ResponseEntity<>(user, HttpStatus.CREATED);
+            } catch (NoSuchElementException e) {
+                return new ResponseEntity<>("User not found incorrect id ", HttpStatus.NOT_FOUND);
+            }
 
-            } else
-                return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
-      //  } else return new ResponseEntity<>("You are not logged in yet! ", HttpStatus.UNAUTHORIZED);
+        } else
+            return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
+        //  } else return new ResponseEntity<>("You are not logged in yet! ", HttpStatus.UNAUTHORIZED);
 
 
     }
@@ -150,21 +137,38 @@ public class UserController {
     public ResponseEntity<Object> update(@RequestHeader("authorization") String authValue, @RequestBody User user) {
 
 
-      //  if (isLogin) {
-            if (authorize("true")) {
+        //  if (isLogin) {
+        if (authorize("true")) {
 
-                try {
-                    userService.saveUser(user);
-                    return new ResponseEntity<>("User updated successfully ", HttpStatus.OK);
-                } catch (NoSuchElementException e) {
-                    return new ResponseEntity<>("User not found incorrect id ", HttpStatus.NOT_FOUND);
-                }
+            try {
+                userService.saveUser(user);
+                return new ResponseEntity<>("User updated successfully ", HttpStatus.OK);
+            } catch (NoSuchElementException e) {
+                return new ResponseEntity<>("User not found incorrect id ", HttpStatus.NOT_FOUND);
+            }
 
-            } else
-                return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
-     //   } else return new ResponseEntity<>("You are not logged in yet! ", HttpStatus.UNAUTHORIZED);
+        } else
+            return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
 
 
+    }
+
+    @PostMapping("/add/newchat")
+
+    public ResponseEntity<Object> AddNewChatById(@RequestHeader long id, @RequestBody List<Chat> chats) {
+
+        User user = userService.AddNewChatById(id, chats);
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @PostMapping("/add/newcategory")
+
+    public ResponseEntity<Object> AddNewCategoryById(@RequestHeader long id, @RequestBody List<Category> category) {
+
+        User user = userService.AddNewCategoryById(id, category);
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @DeleteMapping("delete/{id}")
@@ -174,20 +178,18 @@ public class UserController {
     public ResponseEntity<String> delete(@PathVariable Long id) {
 
 
-      //  if (isLogin) {
-            if (authorize("true")) {
+        //  if (isLogin) {
+        if (authorize("true")) {
 
-                try {
-                    userService.deleteUser(id);
-                    return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
-                } catch (NoSuchElementException e) {
-                    return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
-                }
+            try {
+                userService.deleteUser(id);
+                return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
+            } catch (NoSuchElementException e) {
+                return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+            }
 
-            } else
-                return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
-     //   } else return new ResponseEntity<>("You are not logged in yet! ", HttpStatus.UNAUTHORIZED);
-
+        } else
+            return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
 
     }
 

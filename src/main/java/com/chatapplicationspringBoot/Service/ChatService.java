@@ -21,26 +21,13 @@ public class ChatService {
     public ChatService(ChatRepository chatRepository) {
         this.chatRepository = chatRepository;
     }
-@Autowired
-private UserRepository userRepository;
+
+    @Autowired
+    private UserRepository userRepository;
     // Function to display the list of all chats
 
     public List<Chat> listAllUser() {
         return chatRepository.findAll();
-    }
-
-    public List<Chat> Listallchatbyuserid(Long userID) {
-        return chatRepository.findByUserId(userID);
-    }
-    public Chat createuserchat(Long userID, Chat chat) throws Exception {
-        return userRepository.findById(userID).map(user -> {
-            chat.setUser(user);
-            Date date = new Date();
-            chat.setQuestionDate(date);
-            chat.setAnswerDate(date);
-            return chatRepository.save(chat);
-        }).orElseThrow(() -> new Exception("Not Found"));
-
     }
 
     // Function for creating an object of chat as well as saving date and time
@@ -76,7 +63,6 @@ private UserRepository userRepository;
         }
 
     }
-
 
 
 }

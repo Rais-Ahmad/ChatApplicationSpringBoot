@@ -1,14 +1,12 @@
 package com.chatapplicationspringBoot.Model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
+@Table(name = "t_Chat")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 public class Chat implements Serializable {
     @Id
     @Column(nullable = true)
@@ -23,15 +21,6 @@ public class Chat implements Serializable {
     @Column(nullable = true)
     private Date answerDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private User user;
-
-
-//@ManyToOne(cascade = CascadeType.ALL)
-//@JoinColumn(name = "id")
-//private User user;
-
     public Chat() {
     }
 
@@ -40,16 +29,6 @@ public class Chat implements Serializable {
         this.question = question;
         this.answer = answer;
 
-    }
-
-
-    // Getter and setter functions for Chat class
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public long getId() {

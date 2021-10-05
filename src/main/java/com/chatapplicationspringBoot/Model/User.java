@@ -5,12 +5,15 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "user")
-//@JsonIgnoreProperties({"hibernateLazyInitializer","handler","chat"})
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
+@Table(name = "t_user")
+
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User implements Serializable {
     @Id
     @Column(nullable = false)
@@ -26,10 +29,32 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String password; //User Password
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
-    private List<Chat> chat;
+    @OneToMany(targetEntity = Chat.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "userId", referencedColumnName = "id")
+    private List<Chat> chat = new ArrayList<>();
+
+
+    /**
+     * Many-Many Relationship
+     */
+
+    @ManyToMany(targetEntity = Category.class, cascade = {
+            CascadeType.MERGE
+    })
+    @JoinTable(
+            name = "t_UserCategory",
+            joinColumns = {
+                    @JoinColumn(name = "id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "categoryId")
+            }
+    )
+    //private List<Category> category = new ArrayList<>();
+            Set<Category> category = new HashSet<Category>();
 
     public User() {
+        super();
     }
 
     public User(long id, String firstName, String lastName, String email, int age, String password) {
@@ -98,5 +123,13 @@ public class User implements Serializable {
 
     public void setChat(List<Chat> chat) {
         this.chat = chat;
+    }
+
+    public Set<Category> getCategory() {
+        return category;
+    }
+
+    public void setCategory(Set<Category> category) {
+        this.category = category;
     }
 }
