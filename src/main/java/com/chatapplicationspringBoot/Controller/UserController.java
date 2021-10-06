@@ -15,6 +15,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import static org.hibernate.tool.schema.SchemaToolingLogging.LOGGER;
+
 @EnableSwagger2
 @RestController
 @RequestMapping("/user")
@@ -23,7 +25,12 @@ public class UserController {
     private final ChatService chatService;
     String userLogout;
     final
-    UserService userService;
+    /**
+     * @param userService
+     * @Auther Rais Ahmad
+     * @date 29/09/2021
+     */
+            UserService userService;
     private static final String defaultAuthValue = "da6d27f1-a033-44a9-88aa-a8a5f64a85db";
     private static boolean isLogin = false;
 
@@ -33,16 +40,21 @@ public class UserController {
     }
 
     public Boolean authorize(String authValue) {
-        return true;
+        return defaultAuthValue.equals(authValue);
 
-        // return defaultAuthValue.equals(authValue);
     }
 
+    /**
+     * @Author Rais Ahmad
+     * @Date 09-06-2021
+     * @Discription Comparing Email and password of user from database
+     * @param paramEmail
+     * @param paramPassword
+     * @return
+     */
     @GetMapping("/login")
 
-    // Comparing Email and password of user from database
-
-    public ResponseEntity login(@RequestParam(value = "Email") String paramEmail,
+    public ResponseEntity login(@RequestParam(value = "email") String paramEmail,
                                 @RequestParam(value = "password") String paramPassword) {
         User user = userService.getEmail(paramEmail);
 
@@ -57,34 +69,29 @@ public class UserController {
             return new ResponseEntity("Incorrect login details ", HttpStatus.NOT_FOUND);
         }
 
-
     }
 
-    @GetMapping("/logout")
-    // Logout Functionality
 
-    public ResponseEntity logout() {
 
-        isLogin = false;
-        // User user = null;
-        LOG.info("" + userLogout + "  Logged out!");
-        return new ResponseEntity("User Logged out!", HttpStatus.OK);
+    /**
+     * @Author Rais Ahmad
+     * @Date 09-06-2021
+     * @Discription Get All Users list
+     * @return
+     */
+    @GetMapping("/allUsers")
 
-    }
+    public ResponseEntity<Object> userList(@RequestHeader("authorization") String authValue) {
 
-    @GetMapping(" ")
+        /**
+         * @Author Rais Ahmad
+         * @Date 09-06-2021
+         * @Discription login as well as header authorization will be checked here
+         */
 
-    // List of users will be displayed
-
-    public ResponseEntity<Object> userList(/*@RequestHeader("Authorization") String authValue*/) {
-
-        //  login as well as header authorization will be checked here
-
-        //  if (isLogin) {
-        if (authorize("true")) {
+        if (authorize(authValue)) {
             List<User> userList = userService.listAllUser();
-            //return new ResponseEntity<>(userList, HttpStatus.OK);
-
+            LOG.info("List of users : " + userList );
             if (userList.isEmpty()) {
                 return new ResponseEntity<>("No data available", HttpStatus.NOT_FOUND);
             } else {
@@ -92,99 +99,101 @@ public class UserController {
             }
         } else
             return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
-        // } else return new ResponseEntity<>("You are not logged in yet! ", HttpStatus.UNAUTHORIZED);
     }
 
-
-    @PostMapping("/add")
+    /**
+     * @Author Rais Ahmad
+     * @Date 09-06-2021
+     * @Discription Add a new User
+     * @param authValue
+     * @param user
+     * @return
+     */
+    @PostMapping("/addUser")
     public ResponseEntity<String> addUser(@RequestHeader("Authorization") String authValue, @RequestBody User user) {
 
-        userService.saveUser(user);
+        if (authorize(authValue)) {
+            userService.saveUser(user);
+            LOG.info("User:  " + user + " added Successfully");
+            return new ResponseEntity<>("User added successfully", HttpStatus.CREATED);
 
-        return new ResponseEntity<>("User added successfully", HttpStatus.CREATED);
-
+        } else
+            return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
     }
 
+    /**
+     * @Author Rais Ahmad
+     * @Date 09-06-2021
+     * @Discription Get User by Id
+     * @param authValue
+     * @param id
+     * @return
+     */
+    @GetMapping("/getUser/{id}")
 
-    @GetMapping("/get/{id}")
+    public ResponseEntity<Object> getUserById(@RequestHeader("Authorization") String authValue, @PathVariable Long id) {
 
-    // Get user from database via providing user id
-
-    public ResponseEntity<Object> get(@RequestHeader("Authorization") String authValue, @PathVariable Long id) {
-
-
-        //  if (isLogin) {
-        if (authorize("true")) {
+        if (authorize(authValue)) {
 
             try {
                 User user = userService.getUser(id);
+                LOG.info("Get User by Id:  " + id);
                 return new ResponseEntity<>(user, HttpStatus.CREATED);
             } catch (NoSuchElementException e) {
+                LOGGER.error(e.getMessage(), e);
                 return new ResponseEntity<>("User not found incorrect id ", HttpStatus.NOT_FOUND);
             }
 
         } else
             return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
-        //  } else return new ResponseEntity<>("You are not logged in yet! ", HttpStatus.UNAUTHORIZED);
-
-
     }
 
-    @PutMapping("/update")
+    /**
+     * @Author Rais Ahmad
+     * @Date 09-06-2021
+     * @Discription Update User
+     * @param authValue
+     * @param user
+     * @return
+     */
+    @PutMapping("/updateUser")
+    public ResponseEntity<Object> updateUser(@RequestHeader("authorization") String authValue, @RequestBody User user) {
 
-    // Update user information from database
-
-    public ResponseEntity<Object> update(@RequestHeader("authorization") String authValue, @RequestBody User user) {
-
-
-        //  if (isLogin) {
-        if (authorize("true")) {
+        if (authorize(authValue)) {
 
             try {
-                userService.saveUser(user);
+                userService.updateUser(user);
+                LOG.info("User updated successfully:  " + user);
                 return new ResponseEntity<>("User updated successfully ", HttpStatus.OK);
             } catch (NoSuchElementException e) {
+                LOGGER.error(e.getMessage(), e);
                 return new ResponseEntity<>("User not found incorrect id ", HttpStatus.NOT_FOUND);
             }
 
         } else
             return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
-
-
     }
 
-    @PostMapping("/add/newchat")
+    /**
+     * @Author Rais Ahmad
+     * @Date 09-06-2021
+     * @Discription Add new Chat in existing User
+     * @param id
+     * @param chats
+     * @return
+     */
 
-    public ResponseEntity<Object> AddNewChatById(@RequestHeader long id, @RequestBody List<Chat> chats) {
+    @PostMapping("/addUser/newChat")
 
-        User user = userService.AddNewChatById(id, chats);
+    public ResponseEntity<Object> addNewChatById(@RequestHeader("authorization") String authValue, @RequestHeader long id, @RequestBody List<Chat> chats) {
 
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
-
-    @PostMapping("/add/newcategory")
-
-    public ResponseEntity<Object> AddNewCategoryById(@RequestHeader long id, @RequestBody List<Category> category) {
-
-        User user = userService.AddNewCategoryById(id, category);
-
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
-
-    @DeleteMapping("delete/{id}")
-
-    // Delete a particular user
-
-    public ResponseEntity<String> delete(@PathVariable Long id) {
-
-
-        //  if (isLogin) {
-        if (authorize("true")) {
-
+        if (authorize(authValue)) {
             try {
-                userService.deleteUser(id);
-                return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
+                User user = userService.addNewChatById(id, chats);
+                LOG.info("New Chat added to User: " + id + " successfully!");
+                return new ResponseEntity<>(user, HttpStatus.OK);
             } catch (NoSuchElementException e) {
+                LOGGER.error(e.getMessage(), e);
                 return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
             }
 
@@ -193,5 +202,56 @@ public class UserController {
 
     }
 
+    /**
+     * @Author Rais Ahmad
+     * @Date 09-06-2021
+     * @Discription Add new Category in existing User
+     * @param id
+     * @param category
+     * @return
+     */
+
+    @PostMapping("/addUser/newCategory")
+
+    public ResponseEntity<Object> addNewCategoryById(@RequestHeader("authorization") String authValue, @RequestHeader long id, @RequestBody List<Category> category) {
+
+        if (authorize(authValue)) {
+            try {
+                User user = userService.addNewCategoryById(id, category);
+                LOG.info("New Category added to User: " + id + " successfully!");
+                return new ResponseEntity<>(user, HttpStatus.OK);
+            } catch (NoSuchElementException e) {
+                LOGGER.error(e.getMessage(), e);
+                return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+            }
+        } else
+            return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
+    }
+
+    /**
+     * @Author Rais Ahmad
+     * @Date 09-06-2021
+     * @Discription Delete a User
+     * @param id
+     * @return
+     */
+    @DeleteMapping("deleteUser/{id}")
+
+    public ResponseEntity<String> deleteUser(@RequestHeader("authorization") String authValue, @PathVariable Long id) {
+
+        if (authorize(authValue)) {
+
+            try {
+                userService.deleteUser(id);
+                LOG.info("User: " + id + " deleted successfully!");
+                return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
+            } catch (NoSuchElementException e) {
+                LOGGER.error(e.getMessage(), e);
+                return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+            }
+
+        } else
+            return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
+    }
 
 }

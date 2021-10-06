@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -14,7 +13,12 @@ import java.util.Set;
 @Table(name = "t_user")
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class User implements Serializable {
+public class User {
+    /**
+     * @Author Rais Ahmad
+     * @Date 09-06-2021
+     * @Description User POJO class
+     */
     @Id
     @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,9 +29,14 @@ public class User implements Serializable {
     @Column(nullable = false, unique = true)
     private String email;//User email
     private int age;//User age
-
     @Column(nullable = false)
     private String password; //User Password
+
+    /**
+     * @Author Rais Ahmad
+     * @Date 09-06-2021
+     *  One-Many Relationship
+     */
 
     @OneToMany(targetEntity = Chat.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "userId", referencedColumnName = "id")
@@ -35,7 +44,9 @@ public class User implements Serializable {
 
 
     /**
-     * Many-Many Relationship
+     * @Author Rais Ahmad
+     * @Date 09-06-2021
+     * Many-Many Relationship (Uni Directional)
      */
 
     @ManyToMany(targetEntity = Category.class, cascade = {

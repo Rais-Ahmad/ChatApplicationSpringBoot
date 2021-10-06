@@ -6,12 +6,19 @@ import javax.persistence.*;
 @Table(name = "t_category")
 
 public class Category {
+    /**
+     * @Author Rais Ahmad
+     * @Date 09-06-2021
+     * @Description Category POJO class
+     */
     @Id
     @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long categoryId; //Category ID
     @Column(nullable = false)
     private String categoryName;
+    @Column(nullable = false)
+    private String categoryDate;
 
     public Category() {
         super();
@@ -37,4 +44,11 @@ public class Category {
         this.categoryName = categoryName;
     }
 
+    public String getCategoryDate() {
+        return categoryDate;
+    }
+
+    public void setCategoryDate(String categoryDate) {
+        this.categoryDate = categoryDate;
+    }
 }

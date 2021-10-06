@@ -1,13 +1,16 @@
 package com.chatapplicationspringBoot.Model;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
 
 @Entity
 @Table(name = "t_Chat")
 //@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
-public class Chat implements Serializable {
+public class Chat {
+    /**
+     * @Author Rais Ahmad
+     * @Date 09-06-2021
+     * @Description Chat POJO class
+     */
     @Id
     @Column(nullable = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,9 +20,9 @@ public class Chat implements Serializable {
     @Column(nullable = true)
     private String answer; //Chat answer
     @Column(nullable = true)
-    private Date questionDate;
+    private String questionDate;
     @Column(nullable = true)
-    private Date answerDate;
+    private String answerDate;
 
     public Chat() {
     }
@@ -55,19 +58,19 @@ public class Chat implements Serializable {
         this.answer = answer;
     }
 
-    public Date getQuestionDate() {
+    public String getQuestionDate() {
         return questionDate;
     }
 
-    public void setQuestionDate(Date questionDate) {
+    public void setQuestionDate(String questionDate) {
         this.questionDate = questionDate;
     }
 
-    public Date getAnswerDate() {
+    public String getAnswerDate() {
         return answerDate;
     }
 
-    public void setAnswerDate(Date answerDate) {
+    public void setAnswerDate(String answerDate) {
         this.answerDate = answerDate;
     }
 
