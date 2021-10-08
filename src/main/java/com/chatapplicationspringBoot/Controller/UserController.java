@@ -31,6 +31,7 @@ public class UserController {
      * @date 29/09/2021
      */
             UserService userService;
+//    RestTemplate restTemplate;
     private static final String defaultAuthValue = "da6d27f1-a033-44a9-88aa-a8a5f64a85db";
     private static boolean isLogin = false;
 
@@ -138,7 +139,7 @@ public class UserController {
             try {
                 User user = userService.getUser(id);
                 LOG.info("Get User by Id:  " + id);
-                return new ResponseEntity<>(user, HttpStatus.CREATED);
+                return new ResponseEntity<>(user, HttpStatus.FOUND);
             } catch (NoSuchElementException e) {
                 LOGGER.error(e.getMessage(), e);
                 return new ResponseEntity<>("User not found incorrect id ", HttpStatus.NOT_FOUND);
@@ -235,7 +236,7 @@ public class UserController {
      * @param id
      * @return
      */
-    @DeleteMapping("deleteUser/{id}")
+    @DeleteMapping("/{id}")
 
     public ResponseEntity<String> deleteUser(@RequestHeader("authorization") String authValue, @PathVariable Long id) {
 
@@ -254,4 +255,35 @@ public class UserController {
             return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
     }
 
-}
+
+    @GetMapping("/getChatByUserId/{id}")
+    public ResponseEntity<Object> getChatByUserId(@RequestHeader("authorization") String authValue, @PathVariable Long id) {
+
+        if (authorize(authValue)) {
+
+            try {
+
+                ResponseEntity<Object> user = userService.getChatByUserId(id);
+
+                return new ResponseEntity<>(user.getBody(), HttpStatus.FOUND);
+            } catch (NoSuchElementException e) {
+                LOGGER.error(e.getMessage(), e);
+                return new ResponseEntity<>("User not found incorrect id ", HttpStatus.NOT_FOUND);
+            }
+
+        } else
+            return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
+
+    }
+
+//    public String getProductList() {
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+//        HttpEntity<String> entity = new HttpEntity<String>(headers);
+//
+//        return restTemplate.exchange("http://192.168.10.15:8080/user/:8080/products", HttpMethod.GET, entity, String.class).getBody();
+//    }
+
+    }
+
+

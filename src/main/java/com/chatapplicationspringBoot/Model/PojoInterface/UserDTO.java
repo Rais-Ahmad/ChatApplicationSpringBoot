@@ -1,11 +1,11 @@
-package com.chatapplicationspringBoot.PojoInterface;
+package com.chatapplicationspringBoot.Model.PojoInterface;
 
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public abstract class UserPojoDTO {
+public class UserDTO {
 
    private long id;
    private int age;
@@ -15,8 +15,8 @@ public abstract class UserPojoDTO {
    private String cnic;
    private String createdDate;
    private String updatedDate;
-   private List<String> chats;
-   private List<String> categories;
+   private List<ChatDTO> chats;
+   private List<CategoryDTO> categories ;
 
 
 

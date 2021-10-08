@@ -2,17 +2,23 @@ package com.chatapplicationspringBoot.Service;
 
 import com.chatapplicationspringBoot.Model.Category;
 import com.chatapplicationspringBoot.Model.Chat;
+import com.chatapplicationspringBoot.Model.PojoInterface.ThirdPartyDTO;
+import com.chatapplicationspringBoot.Model.PojoInterface.UserChatCategory;
+import com.chatapplicationspringBoot.Model.PojoInterface.UserDTO;
 import com.chatapplicationspringBoot.Model.User;
 import com.chatapplicationspringBoot.Repository.UserRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -20,21 +26,25 @@ import java.util.Set;
 public class UserService {
     private final UserRepository userRepository;
 
+    URI uri;
+
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
+    HttpHeaders headers = new HttpHeaders();
 
     public List<User> listAllUser() {
         return userRepository.findAll();
     }
 
     /**
-     * @Author Rais Ahmad
-     * @Date 09-06-2021
-     * @Discription Adding a chat in an existing User
      * @param id
      * @param chats
      * @return
+     * @Author Rais Ahmad
+     * @Date 09-06-2021
+     * @Discription Adding a chat in an existing User
      */
     public User addNewChatById(Long id, List<Chat> chats) {
 
@@ -55,12 +65,12 @@ public class UserService {
     }
 
     /**
-     * @Author Rais Ahmad
-     * @Date 09-06-2021
-     * @Discription Adding a new category in an existing User
      * @param id
      * @param categories
      * @return
+     * @Author Rais Ahmad
+     * @Date 09-06-2021
+     * @Discription Adding a new category in an existing User
      */
     public User addNewCategoryById(Long id, List<Category> categories) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -79,11 +89,11 @@ public class UserService {
     }
 
     /**
+     * @param user
+     * @return
      * @Author Rais Ahmad
      * @Date 09-06-2021
      * @Discription Function to req the controller in order to  create a new user
-     * @param user
-     * @return
      */
 
     public Object saveUser(User user) {
@@ -112,11 +122,11 @@ public class UserService {
     }
 
     /**
+     * @param id
+     * @return
      * @Author Rais Ahmad
      * @Date 09-06-2021
      * @Discription Function to  get information of a particular user
-     * @param id
-     * @return
      */
 
     public User getUser(long id) {
@@ -124,10 +134,10 @@ public class UserService {
     }
 
     /**
+     * @param id
      * @Author Rais Ahmad
      * @Date 09-06-2021
      * @Discription Function to  delete a particular user
-     * @param id
      */
 
     public void deleteUser(long id) {
@@ -136,15 +146,52 @@ public class UserService {
 
 
     /**
+     * @param email
+     * @return
      * @Author Rais Ahmad
      * @Date 09-06-2021
      * @Discription Function for matching Email
-     * @param email
-     * @return
      */
 
     public User getEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
+    public ResponseEntity<Object> getChatByUserId(long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            UserChatCategory userChatCategory = new UserChatCategory();
+            userChatCategory.setChats(user.get().getChat());
+            userChatCategory.setCategories(user.get().getCategory());
+            return ResponseEntity.ok().body(userChatCategory);
+        } else if (!user.isPresent()) {
+            final String baseUrl = "http://192.168.10.15:8080/user/get/";
+            try {
+                RestTemplate restTemplate = new RestTemplate();
+
+                ResponseEntity<UserDTO> otherUser;
+                uri = new URI(baseUrl + id);
+                headers.set("Authorization", "user12345");
+                HttpEntity<UserDTO> requestEntity = new HttpEntity<>(null, headers);
+                otherUser = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, UserDTO.class);
+                ThirdPartyDTO thirdPartyDTO = new ThirdPartyDTO();
+                thirdPartyDTO.setDtoChats(otherUser.getBody().getChats());
+                thirdPartyDTO.setDtoCategories(otherUser.getBody().getCategories());
+                return new ResponseEntity<>(thirdPartyDTO , HttpStatus.FOUND);
+
+               // return new ResponseEntity<>(otherUser.getBody(), HttpStatus.FOUND);
+
+
+
+            } catch (HttpClientErrorException ex) {
+                return new ResponseEntity("Missing request headers for other user api", HttpStatus.NOT_FOUND);
+            } catch (Exception e) {
+                return new ResponseEntity("eeeeeeeeeeee", HttpStatus.NOT_FOUND);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+
 }
+

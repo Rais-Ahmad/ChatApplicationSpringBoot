@@ -1,6 +1,9 @@
-package com.chatapplicationspringBoot.PojoInterface;
+package com.chatapplicationspringBoot.Model.PojoInterface;
 
-public class ChatPojoDTO {
+import lombok.Data;
+
+@Data
+public class ChatDTO {
 
     private long id;
     private String answer;
