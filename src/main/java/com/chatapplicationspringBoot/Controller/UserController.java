@@ -31,7 +31,7 @@ public class UserController {
      * @date 29/09/2021
      */
             UserService userService;
-//    RestTemplate restTemplate;
+
     private static final String defaultAuthValue = "da6d27f1-a033-44a9-88aa-a8a5f64a85db";
     private static boolean isLogin = false;
 

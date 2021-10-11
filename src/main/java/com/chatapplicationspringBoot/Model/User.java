@@ -52,6 +52,7 @@ public class User {
     @ManyToMany(targetEntity = Category.class, cascade = {
             CascadeType.MERGE
     })
+
     @JoinTable(
             name = "t_UserCategory",
             joinColumns = {
@@ -61,8 +62,32 @@ public class User {
                     @JoinColumn(name = "categoryId")
             }
     )
+
     //private List<Category> category = new ArrayList<>();
             Set<Category> category = new HashSet<Category>();
+
+    /**
+     * Many-Many
+     * @Author Rais Ahmad
+     * @Date 10-11-2021
+     */
+
+    @ManyToMany(targetEntity = Role.class, cascade = {
+            CascadeType.MERGE
+    })
+
+    @JoinTable(
+            name = "t_UserRole",
+            joinColumns = {
+                    @JoinColumn(name = "id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "roleId")
+            }
+    )
+
+            Set<Role> role = new HashSet<Role>();
+
 
     public User() {
         super();
@@ -142,5 +167,13 @@ public class User {
 
     public void setCategory(Set<Category> category) {
         this.category = category;
+    }
+
+    public Set<Role> getRole() {
+        return role;
+    }
+
+    public void setRole(Set<Role> role) {
+        this.role = role;
     }
 }
