@@ -108,14 +108,14 @@ public class UserService {
         try {
             return ResponseEntity.ok().body(userRepository.save(user));
         } catch (Exception e) {
-            return new ResponseEntity("Unable to add User ", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("User already exist ", HttpStatus.CONFLICT);
         }
     }
 
     public ResponseEntity<Object> updateUser(User user) {
         try {
             userRepository.save(user);
-            return new ResponseEntity<>("User has been successfully Updated", HttpStatus.OK);
+            return new ResponseEntity<>("User has been successfully Updated", HttpStatus.CREATED);
         } catch (NoSuchElementException e) {
             return new ResponseEntity<>("User is not Updated", HttpStatus.BAD_REQUEST);
         }

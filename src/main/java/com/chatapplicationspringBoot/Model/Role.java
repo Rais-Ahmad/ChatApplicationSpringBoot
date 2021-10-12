@@ -19,6 +19,10 @@ public class Role {
     private long roleId;
     @Column(nullable = false, unique = true)
     private String roleName;
+    @Column(nullable = true)
+    private String date;
+    @Column(nullable = true)
+    private String updateDate;
     @ManyToMany(targetEntity = Privileges.class, cascade = {
             CascadeType.MERGE
     })
@@ -63,6 +67,22 @@ public class Role {
 
     public Set<Privileges> getPrivileges() {
         return privileges;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(String updateDate) {
+        this.updateDate = updateDate;
     }
 
     public void setPrivileges(Set<Privileges> privileges) {

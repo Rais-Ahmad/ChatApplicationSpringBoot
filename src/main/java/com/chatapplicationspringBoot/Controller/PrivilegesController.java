@@ -62,12 +62,13 @@ public class PrivilegesController {
      * @return
      */
     @PostMapping("/addPrivilege")
-    public ResponseEntity<String> addPrivilege(@RequestHeader("Authorization") String authValue, @RequestBody Privileges privileges) {
+    public ResponseEntity<String> savePrivileges(@RequestHeader("Authorization") String authValue, @RequestBody Privileges privileges) {
 
         if (authorization(authValue)) {
+
             privilegesService.savePrivileges(privileges);
             LOG.info("Privilege : " + privileges +" added successfully ");
-            return new ResponseEntity<>("Privilege added successfully", HttpStatus.CREATED);
+            return new ResponseEntity<>("Privilege added successfully", HttpStatus.OK);
 
         } else {
             LOG.info("Not Authorized User!");
@@ -128,5 +129,12 @@ public class PrivilegesController {
 
     }
 
+    @DeleteMapping("/deleteP/{id}")
+    public ResponseEntity deletePrivileges(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+        if (authorization(token)) {
+
+            return privilegesService.deletePrivilegebytID(id);
+        } else return new ResponseEntity("Not Authorize", HttpStatus.UNAUTHORIZED);
+    }
 
 }

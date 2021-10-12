@@ -35,7 +35,7 @@ public class User {
     /**
      * @Author Rais Ahmad
      * @Date 09-06-2021
-     *  One-Many Relationship
+     * One-Many Relationship
      */
 
     @OneToMany(targetEntity = Chat.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -63,11 +63,11 @@ public class User {
             }
     )
 
-    //private List<Category> category = new ArrayList<>();
-            Set<Category> category = new HashSet<Category>();
+    Set<Category> category = new HashSet<Category>();
 
     /**
      * Many-Many
+     *
      * @Author Rais Ahmad
      * @Date 10-11-2021
      */
@@ -86,7 +86,7 @@ public class User {
             }
     )
 
-            Set<Role> role = new HashSet<Role>();
+    Set<Role> role = new HashSet<Role>();
 
 
     public User() {

@@ -116,7 +116,7 @@ public class UserController {
         if (authorize(authValue)) {
             userService.saveUser(user);
             LOG.info("User:  " + user + " added Successfully");
-            return new ResponseEntity<>("User added successfully", HttpStatus.CREATED);
+            return new ResponseEntity<>("User added successfully", HttpStatus.OK);
 
         } else
             return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);

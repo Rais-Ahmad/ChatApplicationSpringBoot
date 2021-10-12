@@ -5,6 +5,8 @@ import com.chatapplicationspringBoot.Repository.RoleRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -46,12 +48,17 @@ public class RoleService {
      * @param role
      */
     public void saveRole(Role role) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        role.setDate(dtf.format(now));
         roleRepository.save(role);
 
     }
 
     public void updateRole(Role role){
-
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        role.setUpdateDate(dtf.format(now));
         roleRepository.save(role);
     }
 

@@ -72,7 +72,7 @@ public class RoleController {
         if (authorization(authValue)) {
             roleService.saveRole(role);
             LOG.info("Role : " + role +" added successfully ");
-            return new ResponseEntity<>("Role added successfully", HttpStatus.CREATED);
+            return new ResponseEntity<>("Role added successfully", HttpStatus.OK);
 
         } else {
             LOG.info("Not Authorized User!");
