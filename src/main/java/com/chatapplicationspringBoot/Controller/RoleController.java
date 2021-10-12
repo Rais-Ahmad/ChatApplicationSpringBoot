@@ -61,7 +61,7 @@ public class RoleController {
 
     /**
      * @Author Rais Ahmad
-     * @Date 09-06-2021
+     * @Date 10-11-2021
      * @Discription Add Role
      * @param role
      * @return
@@ -81,7 +81,7 @@ public class RoleController {
 
     /**
      * @Author Rais
-     * @Date 09-06-2021
+     * @Date 10-11-2021
      * @Discription Update Role
      * @param role
      * @return
@@ -106,8 +106,8 @@ public class RoleController {
 
     /**
      * @Author Rais
-     * @Date 09-06-2021
-     * @Discription Delete Category
+     * @Date 10-11-2021
+     * @Discription Delete Role
      * @param id
      * @return
      */

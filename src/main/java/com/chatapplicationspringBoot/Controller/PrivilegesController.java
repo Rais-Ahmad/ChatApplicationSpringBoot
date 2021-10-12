@@ -56,7 +56,7 @@ public class PrivilegesController {
 
     /**
      * @Author Rais Ahmad
-     * @Date 09-06-2021
+     * @Date 10-11-2021
      * @Discription Add Privilege
      * @param privileges
      * @return
@@ -76,7 +76,7 @@ public class PrivilegesController {
 
     /**
      * @Author Rais
-     * @Date 09-06-2021
+     * @Date 10-11-2021
      * @Discription Update privilege
      * @param privileges
      * @return
@@ -101,7 +101,7 @@ public class PrivilegesController {
 
     /**
      * @Author Rais
-     * @Date 09-06-2021
+     * @Date 10-11-2021
      * @Discription Delete privilege
      * @param id
      * @return

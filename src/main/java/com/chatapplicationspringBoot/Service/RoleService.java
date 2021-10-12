@@ -19,7 +19,7 @@ public class RoleService {
 
     /**
      * @Author Rais Ahmad
-     * @Date 09-06-2021
+     * @Date 10-11-2021
      * @Discription List of Roles
      * @return
      */
@@ -30,7 +30,7 @@ public class RoleService {
 
     /**
      * @Author Rais Ahmad
-     * @Date 09-06-2021
+     * @Date 10-11-2021
      * @Discription Get Role by Id
      * @param id
      * @return
@@ -41,7 +41,7 @@ public class RoleService {
 
     /**
      * @Author Rais Ahmad
-     * @Date 09-06-2021
+     * @Date 10-11-2021
      * @Discription Create a Role
      * @param role
      */
