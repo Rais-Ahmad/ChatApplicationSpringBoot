@@ -31,8 +31,24 @@ public class PrivilegesService {
      * @return
      */
 
-    public List<Privileges> listAllPrivileges() {
-        return privilegesRepository.findAll();
+    public ResponseEntity<Object> listAllPrivileges() {
+        //return privilegesRepository.findAll();
+        try {
+            List<Privileges> privileges = privilegesRepository.findAllByStatus(true);
+            if (!privileges.isEmpty()) {
+                return new ResponseEntity<>(privileges, HttpStatus.OK);
+            } else
+                return new ResponseEntity<>(" no privilege is available ", HttpStatus.NOT_FOUND);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage() + " \n " + e.getCause());
+            return new ResponseEntity<>(" Could not fetch privileges due to some error",
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
+
+
     }
 
     /**
@@ -78,7 +94,7 @@ public class PrivilegesService {
         try {
             Optional<Privileges> privilege = privilegesRepository.findById(id);
             if(privilege.isPresent()){
-                privilege.get().setStatus(true);
+                privilege.get().setStatus(false);
                 privilegesRepository.saveAll(privilegesRepository.findAllById(Collections.singleton(id)));
 
 

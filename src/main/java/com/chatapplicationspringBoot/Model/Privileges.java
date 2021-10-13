@@ -25,7 +25,7 @@ public class Privileges {
 
        // private boolean deleted = Boolean.FALSE;
        @Column(nullable = false)
-       private boolean Status;
+       private boolean status;
 
 
         public Privileges(){
@@ -71,10 +71,10 @@ public class Privileges {
     }
 
     public boolean isStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(boolean status) {
-        Status = status;
+        this.status = status;
     }
 }

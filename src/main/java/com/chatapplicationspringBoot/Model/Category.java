@@ -19,6 +19,8 @@ public class Category {
     private String categoryName;
     @Column(nullable = false)
     private String categoryDate;
+    private boolean status;
+
 
     public Category() {
         super();
@@ -50,5 +52,13 @@ public class Category {
 
     public void setCategoryDate(String categoryDate) {
         this.categoryDate = categoryDate;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

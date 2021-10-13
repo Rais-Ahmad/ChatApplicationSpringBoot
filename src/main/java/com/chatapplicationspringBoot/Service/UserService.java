@@ -2,11 +2,15 @@ package com.chatapplicationspringBoot.Service;
 
 import com.chatapplicationspringBoot.Model.Category;
 import com.chatapplicationspringBoot.Model.Chat;
+import com.chatapplicationspringBoot.Model.PojoInterface.SMS;
 import com.chatapplicationspringBoot.Model.PojoInterface.ThirdPartyDTO;
 import com.chatapplicationspringBoot.Model.PojoInterface.UserChatCategory;
 import com.chatapplicationspringBoot.Model.PojoInterface.UserDTO;
 import com.chatapplicationspringBoot.Model.User;
 import com.chatapplicationspringBoot.Repository.UserRepository;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -25,7 +29,11 @@ import java.util.Set;
 @Transactional
 public class UserService {
     private final UserRepository userRepository;
+    private final String ACCOUNT_SID = "AC31b2c9f66d33e1256230d66f8eb72516";
 
+    private final String AUTH_TOKEN = "90effa9d3b6ae9dd1bd7a4244777c79c";
+
+    private final String FROM_NUMBER = "+14135531059";
     URI uri;
 
     public UserService(UserRepository userRepository) {
@@ -192,6 +200,28 @@ public class UserService {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+
+
+
+
+    public ResponseEntity<Object> SendSms(long id, SMS sms){
+        try{
+            User user = userRepository.getById(id);
+            if(null==user){
+                return new ResponseEntity<>("There is no user exists against this id",HttpStatus.BAD_REQUEST);
+            }
+            else{
+                Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+                Message message = Message.creator(new PhoneNumber(user.getPhone()), new PhoneNumber(FROM_NUMBER), sms.getMessage())
+                        .create();
+                System.out.println("here is my id:"+message.getSid());// Unique resource ID created to manage this transaction
+                return new ResponseEntity<>("The message has been successfully sent to: "+user.getFirstName(),HttpStatus.OK);
+            }
+        }catch (Exception e){
+
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }
 

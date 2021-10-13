@@ -36,18 +36,18 @@ public class PrivilegesController {
 
 
     @GetMapping("/allPrivileges")
-    public ResponseEntity<Object> privilegesList(@RequestHeader("Authorization") String authValue) {
+    public ResponseEntity<Object> listAllPrivileges(@RequestHeader("Authorization") String authValue) {
 
         if (authorization(authValue)) {
-            List<Privileges> privilegesList = privilegesService.listAllPrivileges();
-
-            if (privilegesList.isEmpty()) {
-                LOG.info("No data available");
-                return new ResponseEntity<>("No data available", HttpStatus.NOT_FOUND);
-            } else {
-                LOG.info("List of privileges : " + privilegesList +" ");
-                return new ResponseEntity<>(privilegesList, HttpStatus.OK);
-            }
+           // List<Privileges> privilegesList = (List<Privileges>) privilegesService.listAllPrivileges();
+            return privilegesService.listAllPrivileges();
+//            if (privilegesList.isEmpty()) {
+//                LOG.info("No data available");
+//                return new ResponseEntity<>("No data available", HttpStatus.NOT_FOUND);
+//            } else {
+//                LOG.info("List of privileges : " + privilegesList +" ");
+//                return new ResponseEntity<>(privilegesList, HttpStatus.OK);
+//            }
         } else {
             LOG.info("Not Authorized User!");
             return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);

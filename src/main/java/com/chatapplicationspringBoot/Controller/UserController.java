@@ -2,6 +2,7 @@ package com.chatapplicationspringBoot.Controller;
 
 import com.chatapplicationspringBoot.Model.Category;
 import com.chatapplicationspringBoot.Model.Chat;
+import com.chatapplicationspringBoot.Model.PojoInterface.SMS;
 import com.chatapplicationspringBoot.Model.User;
 import com.chatapplicationspringBoot.Service.ChatService;
 import com.chatapplicationspringBoot.Service.UserService;
@@ -276,13 +277,24 @@ public class UserController {
 
     }
 
-//    public String getProductList() {
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-//        HttpEntity<String> entity = new HttpEntity<String>(headers);
-//
-//        return restTemplate.exchange("http://192.168.10.15:8080/user/:8080/products", HttpMethod.GET, entity, String.class).getBody();
-//    }
+    @PostMapping("/sms")
+    public ResponseEntity<Object> SendSms(@RequestHeader("Authorization") String authValue,@RequestHeader long id, @RequestBody SMS sms) {
+
+        if (authorize(authValue)) {
+            try {
+                LOG.info("SMS sent to " + id + " successfully!");
+                return userService.SendSms(id, sms);
+
+            } catch (NoSuchElementException e) {
+                LOGGER.error(e.getMessage(), e);
+                return new ResponseEntity<>("User not found", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } else
+            return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
+
+    }
+
+
 
     }
 

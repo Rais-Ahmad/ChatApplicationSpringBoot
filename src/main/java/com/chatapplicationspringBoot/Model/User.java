@@ -31,6 +31,8 @@ public class User {
     private int age;//User age
     @Column(nullable = false)
     private String password; //User Password
+    @Column(nullable = true)
+    private String phone;
 
     /**
      * @Author Rais Ahmad
@@ -93,13 +95,14 @@ public class User {
         super();
     }
 
-    public User(long id, String firstName, String lastName, String email, int age, String password) {
+    public User(long id, String firstName, String lastName, String email, int age, String password/*, String phone*/) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.age = age;
         this.password = password;
+        //this.phone = phone;
     }
 
     // Getter and setter functions for User class
@@ -175,5 +178,21 @@ public class User {
 
     public void setRole(Set<Role> role) {
         this.role = role;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
