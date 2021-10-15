@@ -33,6 +33,10 @@ public class User {
     private String password; //User Password
     @Column(nullable = true)
     private String phone;
+    private int smsToken;
+    private int emailToken;
+    private boolean status;
+
 
     /**
      * @Author Rais Ahmad
@@ -40,7 +44,7 @@ public class User {
      * One-Many Relationship
      */
 
-    @OneToMany(targetEntity = Chat.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Chat.class, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private List<Chat> chat = new ArrayList<>();
 
@@ -194,5 +198,29 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public int getSmsToken() {
+        return smsToken;
+    }
+
+    public void setSmsToken(int smsToken) {
+        this.smsToken = smsToken;
+    }
+
+    public int getEmailToken() {
+        return emailToken;
+    }
+
+    public void setEmailToken(int emailToken) {
+        this.emailToken = emailToken;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

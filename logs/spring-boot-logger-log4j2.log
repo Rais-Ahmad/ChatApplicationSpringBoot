@@ -1,41 +1,44 @@
-2021-10-14 18:05:01,733 INFO o.s.b.StartupInfoLogger [restartedMain] Starting ChatApplicationSpringBootApplication using Java 1.8.0_73 on LTI-TRAINING-07 with PID 7116 (D:\ChatApplicationSpringBoot\target\classes started by Rais Ahmad in D:\ChatApplicationSpringBoot)
-2021-10-14 18:05:01,764 INFO o.s.b.SpringApplication [restartedMain] No active profile set, falling back to default profiles: default
-2021-10-14 18:05:01,998 INFO o.s.b.l.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2021-10-14 18:05:01,998 INFO o.s.b.l.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-10-14 18:05:03,264 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-10-14 18:05:03,373 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 90 ms. Found 5 JPA repository interfaces.
-2021-10-14 18:05:04,123 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8090 (http)
-2021-10-14 18:05:04,123 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8090"]
-2021-10-14 18:05:04,123 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting service [Tomcat]
-2021-10-14 18:05:04,139 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.53]
-2021-10-14 18:05:04,389 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
-2021-10-14 18:05:04,389 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 2391 ms
-2021-10-14 18:05:04,467 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Starting...
-2021-10-14 18:05:04,920 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
-2021-10-14 18:05:04,920 INFO o.s.b.a.h.H2ConsoleAutoConfiguration [restartedMain] H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/chatapp'
-2021-10-14 18:05:05,092 INFO o.h.j.i.u.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-10-14 18:05:05,170 INFO o.h.Version [restartedMain] HHH000412: Hibernate ORM core version 5.4.32.Final
-2021-10-14 18:05:05,342 INFO o.h.a.c.r.j.JavaReflectionManager [restartedMain] HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-10-14 18:05:05,467 INFO o.h.d.Dialect [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-2021-10-14 18:05:06,451 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-10-14 18:05:06,467 INFO o.s.o.j.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-10-14 18:05:07,436 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-10-14 18:05:08,045 INFO o.s.b.d.a.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
-2021-10-14 18:05:08,233 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8090"]
-2021-10-14 18:05:08,248 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat started on port(s): 8090 (http) with context path ''
-2021-10-14 18:05:08,248 INFO s.d.s.w.p.DocumentationPluginsBootstrapper [restartedMain] Context refreshed
-2021-10-14 18:05:08,280 INFO s.d.s.w.p.DocumentationPluginsBootstrapper [restartedMain] Found 1 custom documentation plugin(s)
-2021-10-14 18:05:08,295 INFO s.d.s.w.s.ApiListingReferenceScanner [restartedMain] Scanning for api listing references
-2021-10-14 18:05:08,780 INFO s.d.s.w.r.o.CachingOperationNameGenerator [restartedMain] Generating unique operation named: sendMailUsingPOST_1
-2021-10-14 18:05:08,826 INFO o.s.c.l.CompositeLog [restartedMain] Starting...
-2021-10-14 18:05:08,826 INFO o.s.c.l.CompositeLog [restartedMain] BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@435fc27d]]
-2021-10-14 18:05:08,826 INFO o.s.c.l.CompositeLog [restartedMain] Started.
-2021-10-14 18:05:08,842 INFO o.s.b.StartupInfoLogger [restartedMain] Started ChatApplicationSpringBootApplication in 7.895 seconds (JVM running for 11.04)
-2021-10-14 18:05:15,682 INFO o.a.j.l.DirectJDKLog [http-nio-8090-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
-2021-10-14 18:05:15,682 INFO o.s.w.s.FrameworkServlet [http-nio-8090-exec-1] Initializing Servlet 'dispatcherServlet'
-2021-10-14 18:05:15,682 INFO o.s.w.s.FrameworkServlet [http-nio-8090-exec-1] Completed initialization in 0 ms
-2021-10-14 18:05:26,988 INFO c.c.C.UserController [http-nio-8090-exec-7] List of users : [com.chatapplicationspringBoot.Model.User@6a9f5c7, com.chatapplicationspringBoot.Model.User@333ef991, com.chatapplicationspringBoot.Model.User@6bd4e78, com.chatapplicationspringBoot.Model.User@4db19c3d]
-2021-10-14 18:06:07,664 INFO o.s.w.s.c.WebSocketMessageBrokerStats [MessageBroker-1] WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
-2021-10-14 18:06:15,615 WARN o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-8090-exec-8] Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize value of type `long` from String "id": not a valid `long` value; nested exception is com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `long` from String "id": not a valid `long` value
- at [Source: (PushbackInputStream); line: 1, column: 5]]
-2021-10-14 18:08:47,545 INFO c.c.C.UserController [http-nio-8090-exec-10] User:  com.chatapplicationspringBoot.Model.User@16d19f64 added Successfully
+2021-10-15 10:57:13,343 INFO o.s.b.StartupInfoLogger [restartedMain] Starting ChatApplicationSpringBootApplication using Java 1.8.0_73 on LTI-TRAINING-07 with PID 9432 (D:\ChatApplicationSpringBoot\target\classes started by Rais Ahmad in D:\ChatApplicationSpringBoot)
+2021-10-15 10:57:13,359 INFO o.s.b.SpringApplication [restartedMain] No active profile set, falling back to default profiles: default
+2021-10-15 10:57:13,515 INFO o.s.b.l.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-10-15 10:57:13,515 INFO o.s.b.l.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-10-15 10:57:14,749 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-10-15 10:57:14,859 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 86 ms. Found 5 JPA repository interfaces.
+2021-10-15 10:57:15,593 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8090 (http)
+2021-10-15 10:57:15,609 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8090"]
+2021-10-15 10:57:15,609 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2021-10-15 10:57:15,609 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.53]
+2021-10-15 10:57:15,781 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2021-10-15 10:57:15,781 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 2235 ms
+2021-10-15 10:57:15,827 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Starting...
+2021-10-15 10:57:16,265 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
+2021-10-15 10:57:16,281 INFO o.s.b.a.h.H2ConsoleAutoConfiguration [restartedMain] H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/chatapp'
+2021-10-15 10:57:16,421 INFO o.h.j.i.u.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-10-15 10:57:16,499 INFO o.h.Version [restartedMain] HHH000412: Hibernate ORM core version 5.4.32.Final
+2021-10-15 10:57:16,671 INFO o.h.a.c.r.j.JavaReflectionManager [restartedMain] HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-10-15 10:57:16,812 INFO o.h.d.Dialect [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2021-10-15 10:57:17,734 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-10-15 10:57:17,749 INFO o.s.o.j.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-10-15 10:57:18,796 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-10-15 10:57:19,390 INFO o.s.b.d.a.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2021-10-15 10:57:19,578 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8090"]
+2021-10-15 10:57:19,609 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat started on port(s): 8090 (http) with context path ''
+2021-10-15 10:57:19,609 INFO s.d.s.w.p.DocumentationPluginsBootstrapper [restartedMain] Context refreshed
+2021-10-15 10:57:19,624 INFO s.d.s.w.p.DocumentationPluginsBootstrapper [restartedMain] Found 1 custom documentation plugin(s)
+2021-10-15 10:57:19,640 INFO s.d.s.w.s.ApiListingReferenceScanner [restartedMain] Scanning for api listing references
+2021-10-15 10:57:20,203 INFO o.s.c.l.CompositeLog [restartedMain] Starting...
+2021-10-15 10:57:20,203 INFO o.s.c.l.CompositeLog [restartedMain] BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@7a2e9206]]
+2021-10-15 10:57:20,203 INFO o.s.c.l.CompositeLog [restartedMain] Started.
+2021-10-15 10:57:20,218 INFO o.s.b.StartupInfoLogger [restartedMain] Started ChatApplicationSpringBootApplication in 7.468 seconds (JVM running for 9.878)
+2021-10-15 10:57:28,890 INFO o.a.j.l.DirectJDKLog [http-nio-8090-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-10-15 10:57:28,891 INFO o.s.w.s.FrameworkServlet [http-nio-8090-exec-1] Initializing Servlet 'dispatcherServlet'
+2021-10-15 10:57:28,892 INFO o.s.w.s.FrameworkServlet [http-nio-8090-exec-1] Completed initialization in 1 ms
+2021-10-15 10:58:19,017 INFO o.s.w.s.c.WebSocketMessageBrokerStats [MessageBroker-1] WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2021-10-15 11:02:29,361 INFO c.c.C.UserController [http-nio-8090-exec-1] List of users : [com.chatapplicationspringBoot.Model.User@7bedb346, com.chatapplicationspringBoot.Model.User@3f73f575, com.chatapplicationspringBoot.Model.User@7df0eb3b, com.chatapplicationspringBoot.Model.User@2e4142a2, com.chatapplicationspringBoot.Model.User@37c8e1f9]
+2021-10-15 11:03:11,176 INFO c.c.C.UserController [http-nio-8090-exec-3] User: 62 deleted successfully!
+2021-10-15 11:03:33,028 INFO c.c.C.UserController [http-nio-8090-exec-2] User:  com.chatapplicationspringBoot.Model.User@7b737afc added Successfully
+2021-10-15 11:04:09,662 INFO c.c.C.UserController [http-nio-8090-exec-4] List of users : [com.chatapplicationspringBoot.Model.User@485ca0df, com.chatapplicationspringBoot.Model.User@1de15445, com.chatapplicationspringBoot.Model.User@722b6ab5, com.chatapplicationspringBoot.Model.User@2493e34c, com.chatapplicationspringBoot.Model.User@9e4e559]
+2021-10-15 11:05:31,110 INFO c.c.C.UserController [http-nio-8090-exec-7] List of users : [com.chatapplicationspringBoot.Model.User@691a2b0b, com.chatapplicationspringBoot.Model.User@5839272e, com.chatapplicationspringBoot.Model.User@31cfe305, com.chatapplicationspringBoot.Model.User@935d444, com.chatapplicationspringBoot.Model.User@754306b4]
+2021-10-15 11:06:18,766 INFO o.s.c.l.CompositeLog [SpringApplicationShutdownHook] Stopping...
+2021-10-15 11:06:18,766 INFO o.s.c.l.CompositeLog [SpringApplicationShutdownHook] BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@7a2e9206]]
+2021-10-15 11:06:18,766 INFO o.s.c.l.CompositeLog [SpringApplicationShutdownHook] Stopped.

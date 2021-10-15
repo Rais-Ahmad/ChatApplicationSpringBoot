@@ -2,6 +2,7 @@ package com.chatapplicationspringBoot.Controller;
 
 import com.chatapplicationspringBoot.Model.Category;
 import com.chatapplicationspringBoot.Model.Chat;
+import com.chatapplicationspringBoot.Model.Mail;
 import com.chatapplicationspringBoot.Model.PojoInterface.SMS;
 import com.chatapplicationspringBoot.Model.User;
 import com.chatapplicationspringBoot.Service.ChatService;
@@ -294,7 +295,28 @@ public class UserController {
 
     }
 
+    @GetMapping("/Verification")
+    public ResponseEntity<Object> verify(@RequestHeader("Authorization") String authValue,@RequestHeader long id, @RequestHeader int emailToken, @RequestHeader int smsToken) {
 
+        if (authorize(authValue)) {
+            try {
+
+                return userService.verify(id, emailToken, smsToken);
+
+            } catch (NoSuchElementException e) {
+                LOGGER.error(e.getMessage(), e);
+                return new ResponseEntity<>("User not found", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } else
+            return new ResponseEntity<>("Not authorize", HttpStatus.UNAUTHORIZED);
+
+    }
+
+    @PostMapping("/sendMail")
+    public ResponseEntity<String> sendMail(@RequestBody Mail mail) {
+        userService.sendMail(mail);
+        return new ResponseEntity<>("Email Sent successfully", HttpStatus.OK);
+    }
 
     }
 

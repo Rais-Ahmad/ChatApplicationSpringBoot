@@ -15,8 +15,11 @@ public class UserDTO {
    private String cnic;
    private String createdDate;
    private String updatedDate;
+   private String phoneNumber;
+   private boolean Status;
    private List<ChatDTO> chats;
    private List<CategoryDTO> categories ;
+   private List<RolesDTO> roles;
 
 
 
